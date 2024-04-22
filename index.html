@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center " id="add-players-page">
+        <div class="col col-sm-12 col-md-10 col-lg-6 col-xl-4">
+            <div class="mt-4">
+                <ul class="list-group" id="players-list">
+
+                </ul>
+            </div>
+            <div class="mt-4">
+                <form id="add-player-form">
+                    <div>
+                        <div class="mb-3">
+                            <label for="input-player-nick" class="form-label">Nick del jugador</label>
+                            <input minlength="1" required type="text" class="form-control" id="input-player-nick" aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                    <button id="add-player" class="btn btn-info">Agregar Jugador</button>
+                </form>
+            </div>
+            <div class="mt-4">
+                <button id="generate-single-draft-btn" class="btn btn-lg btn-primary w-100 d-none">GENERAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-none" id="review-page">
+        <div class="pt-2">
+            <div>
+                <a target="_blank" id="share-btn" class="btn btn-success btn-lg w-100" >
+                    COPIAR
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="module" src="assets/main.js"></script>
+</body>
+</html>
