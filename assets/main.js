@@ -135,6 +135,11 @@ const goToReviewPage = () => {
     })
     render(singleDraftItems, reviewPAGE);
 }
+
+/**
+ *  SHARE BUTTON
+ */
+
 copyBtn.addEventListener('click',()=>{
     navigator.clipboard.writeText(textToShare)
         .then(() => {
@@ -145,7 +150,6 @@ copyBtn.addEventListener('click',()=>{
         });
 
 })
-
 
 /**
  * UTILITIES
