@@ -7,10 +7,33 @@ const D = document;
 let playerListData = [];
 let intHeroes, strenghtHeroes, agilityHeroes, universalHeroes;
 const generateSingleDraftBtn = D.getElementById('generate-single-draft-btn');
+const generateDraftTemplateBtns = D.querySelectorAll('.generate-draft-template');
 const copyBtn = D.getElementById('share-btn');
 const addPlayersPAGE = D.getElementById('add-players-page');
 const reviewPAGE = D.getElementById('review-page');
+const colorsByTeam = {
+    radiant: [
+        { name: "blue", hex: "#4884f9" },
+        { name: "cyan", hex: "#6affc2" },
+        { name: "purple", hex: "#bd00b7" },
+        { name: "yellow", hex: "#f8f50f" },
+        { name: "orange", hex: "#ff7516" },
+    ],
+    dire: [
+        { name: "pink", hex: "#ff99cd" },
+        { name: "gold", hex: "#c0cb85" },
+        { name: "skyBlue", hex: "#66dafa" },
+        { name: "green", hex: "#01831f" },
+        { name: "brown", hex: "#9f6b00" },
+    ],
+};
 let textToShare = '';
+
+
+const getStyleByColorName = (name) => {
+    const color = [...colorsByTeam.radiant, ...colorsByTeam.dire].find(color => color.name === name)
+    return color?.hex ? `color: ${color?.hex}; text-shadow: #000 0 0 2px;`: ""
+}
 
 
 /**
@@ -44,13 +67,12 @@ fetch('heroes-list.json').then(data => {
 
 })
 
-/**
- * MAIN BUTTON BEHAVIOR
+/*
+ * GENERATE DRAFT
  */
-
 const playersWithHeroes = [];
 
-generateSingleDraftBtn.addEventListener('click', () => {
+const generateDraft = () => {
     playerListData.forEach(nick => {
         const {randomItem: randomIntHero, copiedArray: newIntArray} = getRandomItemAndCopyArray(intHeroes);
         intHeroes = newIntArray;
@@ -69,13 +91,31 @@ generateSingleDraftBtn.addEventListener('click', () => {
             universalHero: randomUnivHero,
         })
     })
-    console.log(playersWithHeroes)
     generateSingleDraftBtn.disabled = true;
     addPlayersPAGE.classList.add('d-none')
     reviewPAGE.classList.remove('d-none')
 
     goToReviewPage();
+}
+
+/**
+ * DRAFT TEMPLATE BEHAVIOR
+ */
+generateDraftTemplateBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const type = btn.dataset['type'];
+        const dire = colorsByTeam.dire.slice(0, type).map(({name}) => name);
+        const radiant = colorsByTeam.radiant.slice(0, type).map(({name}) => name);
+        
+        playerListData = [...dire, ...radiant]
+        generateDraft()
+    })
 })
+
+/**
+ * MAIN BUTTON BEHAVIOR
+ */
+generateSingleDraftBtn.addEventListener('click', generateDraft)
 
 
 const goToReviewPage = () => {
@@ -93,7 +133,7 @@ const goToReviewPage = () => {
         const element = html`
             <hr>
             <div class="row justify-content-center">
-                <h5>${playerWithHeroes.playerNickName}</h5>
+                <h5 style="${getStyleByColorName(playerWithHeroes.playerNickName)}">${playerWithHeroes.playerNickName}</h5>
                 <div class="row row-cols-2 row-cols-md-4">
                     <div class="col pt-1">
                         <div class="card">
